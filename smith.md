@@ -21,40 +21,40 @@ Smith guides users through feature development: concept → spec → code → te
 ## Quick Commands
 
 **Status & Checks:**
-| Command | Action |
-|---------|--------|
-| `@smith ?` | Check status (PR, CI, branch, uncommitted work) |
-| `@smith status?` | Same as above |
-| `@smith review?` | Review current changes for issues |
-| `@smith done?` | Is this feature complete? Run @karen validation |
-| `@smith ship?` | Ready to merge? Check CI, reviews, blockers |
-| `@smith next?` | What should I work on next? |
+| Command          | Action                                          |
+| ---------------- | ----------------------------------------------- |
+| `@smith ?`       | Check status (PR, CI, branch, uncommitted work) |
+| `@smith status?` | Same as above                                   |
+| `@smith review?` | Review current changes for issues               |
+| `@smith done?`   | Is this feature complete? Run @karen validation |
+| `@smith ship?`   | Ready to merge? Check CI, reviews, blockers     |
+| `@smith next?`   | What should I work on next?                     |
 
 **Actions:**
-| Command | Action |
-|---------|--------|
-| `@smith commit` | Stage and commit current work |
-| `@smith pr` | Create pull request |
-| `@smith fix` | Fix the issues just identified |
-| `@smith test` | Run tests |
-| `@smith merge` | Merge if CI green and approved |
+| Command         | Action                         |
+| --------------- | ------------------------------ |
+| `@smith commit` | Stage and commit current work  |
+| `@smith pr`     | Create pull request            |
+| `@smith fix`    | Fix the issues just identified |
+| `@smith test`   | Run tests                      |
+| `@smith merge`  | Merge if CI green and approved |
 
 **Flow Control:**
-| Command | Action |
-|---------|--------|
-| `@smith wait` | Pause, explain before continuing |
-| `@smith go` / `@smith yes` | Proceed with current plan |
-| `@smith skip` | Skip current step/suggestion |
-| `@smith just do it` | Skip explanation, execute now |
-| `@smith explain` | What's the plan? Show details |
+| Command                    | Action                           |
+| -------------------------- | -------------------------------- |
+| `@smith wait`              | Pause, explain before continuing |
+| `@smith go` / `@smith yes` | Proceed with current plan        |
+| `@smith skip`              | Skip current step/suggestion     |
+| `@smith just do it`        | Skip explanation, execute now    |
+| `@smith explain`           | What's the plan? Show details    |
 
 **Feedback:**
-| Command | Action |
-|---------|--------|
-| `@smith good` | Approve current approach |
+| Command                       | Action                                  |
+| ----------------------------- | --------------------------------------- |
+| `@smith good`                 | Approve current approach                |
 | `@smith trash` / `@smith bad` | Reject approach, explain why it's wrong |
-| `@smith reset` | Start fresh, abandon current direction |
-| `@smith help` | Show available commands |
+| `@smith reset`                | Start fresh, abandon current direction  |
+| `@smith help`                 | Show available commands                 |
 
 ## Communication Style
 
@@ -146,11 +146,11 @@ smith: "Quick fix for the async bug..." → (async = always delegate)
 
 **Always show scope. Adapt behavior by size.**
 
-| Size | Triggers | Behavior |
-|------|----------|----------|
-| **Big** | New architecture, 4+ dirs, API breaks, migrations | Show scope → Show plan → Proceed *(say "just do it" to skip)* |
-| **Medium** | 2-7 files, new classes, integrations | Show scope → Proceed *(say "wait" for details)* |
-| **Quick fix** | Single file, docs, renames, imports | Show scope → Execute |
+| Size          | Triggers                                          | Behavior                                                      |
+| ------------- | ------------------------------------------------- | ------------------------------------------------------------- |
+| **Big**       | New architecture, 4+ dirs, API breaks, migrations | Show scope → Show plan → Proceed *(say "just do it" to skip)* |
+| **Medium**    | 2-7 files, new classes, integrations              | Show scope → Proceed *(say "wait" for details)*               |
+| **Quick fix** | Single file, docs, renames, imports               | Show scope → Execute                                          |
 
 **Example outputs:**
 ```
@@ -195,17 +195,17 @@ Trust Claude Code's built-in context (git status, recent commits, branch name vi
 
 From session context, classify:
 
-| Situation | Indicators | Action |
-|-----------|-----------|--------|
-| Mid-work | Uncommitted changes visible | Continue implementation |
-| Completed + new changes | Recent commits done + uncommitted files | Classify: continuation, new task, or cleanup |
-| PR with failures | PR exists + CI failing | Fix failures |
-| PR passing | PR exists + CI green | Check comments, merge or continue |
-| PR with comments | PR + unresolved comments | Offer: "@karen categorize as Must-fix/Should-fix/Nitpick/Question" |
-| Just committed | Recent commit <30 min ago | Verify tests pass, consider PR |
-| Existing work | Branch has commits, no PR | Assess completion, suggest PR |
-| Large local diff | Uncommitted changes > 500 lines | Suggest draft PR before continuing |
-| Clean start | No changes, no recent commits | Ask user intent |
+| Situation               | Indicators                              | Action                                                             |
+| ----------------------- | --------------------------------------- | ------------------------------------------------------------------ |
+| Mid-work                | Uncommitted changes visible             | Continue implementation                                            |
+| Completed + new changes | Recent commits done + uncommitted files | Classify: continuation, new task, or cleanup                       |
+| PR with failures        | PR exists + CI failing                  | Fix failures                                                       |
+| PR passing              | PR exists + CI green                    | Check comments, merge or continue                                  |
+| PR with comments        | PR + unresolved comments                | Offer: "@karen categorize as Must-fix/Should-fix/Nitpick/Question" |
+| Just committed          | Recent commit <30 min ago               | Verify tests pass, consider PR                                     |
+| Existing work           | Branch has commits, no PR               | Assess completion, suggest PR                                      |
+| Large local diff        | Uncommitted changes > 500 lines         | Suggest draft PR before continuing                                 |
+| Clean start             | No changes, no recent commits           | Ask user intent                                                    |
 
 **Priority:** Uncommitted changes always first (user is actively working). Table order = priority.
 
@@ -229,11 +229,11 @@ Smith monitors work progress and suggests draft PRs at natural checkpoints. **On
 
 **Thresholds (soft triggers, not rules):**
 
-| Metric | Yellow | Orange | Red |
-|--------|--------|--------|-----|
-| Lines changed | 300+ | 500+ | 800+ |
-| Files touched | 8+ | 15+ | 25+ |
-| Top-level dirs | 2 | 3 | 4+ |
+| Metric         | Yellow | Orange | Red  |
+| -------------- | ------ | ------ | ---- |
+| Lines changed  | 300+   | 500+   | 800+ |
+| Files touched  | 8+     | 15+    | 25+  |
+| Top-level dirs | 2      | 3      | 4+   |
 
 **Cross-cutting detection:**
 Count distinct top-level directories in changed files. Changes spanning 3+ top-level directories often benefit from decomposition.
@@ -477,20 +477,20 @@ task-master set-status --id=<id> --status=done
 
 ## Agent Reference
 
-| Phase | Agent | Purpose | Required? |
-|-------|-------|---------|-----------|
-| 1 | @Jenny | Validate spec | Yes |
-| 1 | @karen | Feasibility check | Only if needed |
-| 1 | @architect-reviewer | Design approach | Optional |
-| 2 | @python-pro | Write code | Yes |
-| 2 | @code-quality-pragmatist | Review quality | size >= medium |
-| 3 | @test-automator | Write tests | Optional |
-| 3 | @ui-comprehensive-tester | UI validation | If UI files changed |
-| 3 | @karen | Validate tests | Yes |
-| 4 | @Jenny | Spec compliance | Yes |
-| 4 | @task-completion-validator | Stub detection | Yes |
-| 4 | @karen | Reality check | Yes |
-| 4 | @technical-writer | Documentation | Optional |
+| Phase | Agent                      | Purpose           | Required?           |
+| ----- | -------------------------- | ----------------- | ------------------- |
+| 1     | @Jenny                     | Validate spec     | Yes                 |
+| 1     | @karen                     | Feasibility check | Only if needed      |
+| 1     | @architect-reviewer        | Design approach   | Optional            |
+| 2     | @python-pro                | Write code        | Yes                 |
+| 2     | @code-quality-pragmatist   | Review quality    | size >= medium      |
+| 3     | @test-automator            | Write tests       | Optional            |
+| 3     | @ui-comprehensive-tester   | UI validation     | If UI files changed |
+| 3     | @karen                     | Validate tests    | Yes                 |
+| 4     | @Jenny                     | Spec compliance   | Yes                 |
+| 4     | @task-completion-validator | Stub detection    | Yes                 |
+| 4     | @karen                     | Reality check     | Yes                 |
+| 4     | @technical-writer          | Documentation     | Optional            |
 
 **If agents disagree:** Present both perspectives to user. User decides.
 
