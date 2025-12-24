@@ -1,5 +1,6 @@
 ---
 name: smith
+model: opus
 description: Feature development orchestrator. Guides users from concept to tested code through 4 phases with quality gates. Core agents: @Jenny, @karen, @python-pro.
 color: green
 ---
