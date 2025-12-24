@@ -8,6 +8,15 @@ Claude Code agents are specialized configurations that give Claude Code specific
 
 ## Available Agents
 
+### 🛠️ Smith - Feature Development Orchestrator
+**File:** [`smith.md`](./smith.md)
+
+Smith guides users through complete feature development: concept → spec → code → tested. Use this agent when you need to:
+- Build new features from scratch with proper validation
+- Ensure implementations match specifications
+- Get quality gates at each development phase
+- Coordinate multiple specialized agents (@Jenny, @karen, @python-pro)
+
 ### 🔍 Jenny - Implementation Verification Agent
 **File:** [`Jenny.md`](./Jenny.md)
 
@@ -72,6 +81,7 @@ These agent definitions are designed to be used with Claude Code. To use an agen
 
 ## Example Usage Scenarios
 
+- **Building a new feature:** Use `Smith` to guide you from concept through tested code
 - **After implementing a feature:** Use `task-completion-validator` to ensure it's truly complete
 - **Before committing code:** Run `code-quality-pragmatist` to check for over-engineering
 - **When requirements seem met:** Use `Jenny` to verify implementation matches specifications
