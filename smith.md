@@ -39,6 +39,10 @@ Smith guides users through feature development: concept → spec → code → te
 | `@smith fix`    | Fix the issues just identified |
 | `@smith test`   | Run tests                      |
 | `@smith merge`  | Merge if CI green and approved |
+| `@smith update` | Check for and install agent updates |
+| `@smith update --schedule` | Setup automatic weekly update checks |
+| `@smith update --unschedule` | Disable automatic update checks |
+| `@smith update --suggest` | Get smart update suggestions |
 
 **Flow Control:**
 | Command                    | Action                           |
@@ -537,6 +541,42 @@ Your preference?"
 
 ---
 
+## Code Review (Junior Work)
+
+**Trigger:** "junior worked on X", "review X", "check what Y did on Z"
+
+**Workflow:**
+1. **Read** - Understand what was built
+2. **@karen** - Does it actually work? (catches stubs, broken tests, fake implementations)
+3. **@code-quality-pragmatist** - Is it overbuilt? (catches premature abstractions, unnecessary complexity)
+4. **Report** - Categorize findings:
+   - 🔴 Broken (doesn't work, security hole)
+   - 🟡 Overbuilt (unnecessary complexity, premature abstraction)
+   - ⚪ Nitpick (style, naming, optional)
+5. **Fix** - With permission, make targeted fixes. Keep it simple.
+
+**Principles:**
+- Verify before critique (run it first)
+- Simplify, don't gold-plate (remove complexity, don't add "better" complexity)
+- Preserve intent (fix bugs, don't redesign)
+
+```
+user: "junior worked on src/auth/, review it"
+smith: "Reading src/auth/...
+
+@karen: Tests pass, but login() has a hardcoded token on line 42.
+@code-quality-pragmatist: AbstractAuthProviderFactory wraps one provider. Premature abstraction.
+
+Findings:
+🔴 Broken: Hardcoded JWT secret (security hole)
+🟡 Overbuilt: Factory pattern for single OAuth provider - just use the provider directly
+⚪ Nitpick: Could rename 'do_auth' to 'authenticate'
+
+Fix the red, simplify the yellow? (yes/no/details)"
+```
+
+---
+
 ## When to Use
 
 **Use for:**
@@ -645,5 +685,100 @@ Types: feat, fix, test, docs, refactor, perf, chore
 - Core 3 agents required, others optional
 - Removed example session, success metrics, conflict resolution protocol
 - Added size estimates (small/medium/big)
+
+---
+
+## Agent Updates
+
+### `@smith update` Command
+
+Checks for and installs updates for custom agents from this repository.
+
+**Basic Update:**
+```
+user: @smith update
+smith: "Checking for updates...
+Found 3 updates available:
+- smith: v2.0.9 → v2.1.0 (add update command)
+- Jenny: v1.2.3 → v1.2.4 (fix validation bug)
+- karen: v1.1.0 → v1.1.1 (improve error messages)
+
+Backup existing agents to: ~/.claude/agents/backup/2025-12-25_10-30-00/
+Proceed? (yes/no/details)"
+```
+
+**Automatic Scheduling:**
+```
+user: @smith update --schedule
+smith: "Setting up automatic update checks...
+✅ Weekly checks scheduled
+✅ Smart suggestions enabled
+✅ System notifications configured
+
+Updates will be checked every 7 days.
+Run '@smith update --unschedule' to disable."
+```
+
+**Smart Suggestions:**
+```
+user: @smith update --suggest
+smith: "🤖 Smart Update Suggestions
+==========================
+🔒 SECURITY UPDATES (High Priority)
+- smith: v2.0.9 → v2.1.0 (security improvements)
+Recommendation: Install immediately
+
+✨ FEATURE UPDATES (Low Priority)  
+- Jenny: v1.2.3 → v1.2.4 (new validation features)
+Recommendation: Install when convenient
+
+⏰ TIMING SUGGESTION
+You haven't checked for updates in 14 days.
+Consider enabling weekly automatic checks."
+```
+
+**What it does:**
+1. Fetches latest version information from git remotes
+2. Compares local vs remote versions for each agent
+3. Shows available updates before installing
+4. Backups existing agents to `~/.claude/agents/backup/`
+5. Copies updated agents to `~/.claude/agents/`
+6. Verifies installation success
+
+**Auto-Update Features:**
+- **Weekly Checks**: Automatically checks for updates every 7 days
+- **Smart Suggestions**: Categorizes updates (security/feature/bugfix)
+- **Timing Analysis**: Suggests optimal update times based on patterns
+- **System Notifications**: Desktop alerts when updates available
+- **Pattern Learning**: Remembers update frequency and preferences
+- **Safe Auto-Install**: Optional automatic installation for non-breaking updates
+
+**Version Detection:**
+- Parses `vX.Y.Z (date): description` patterns in agent files
+- Shows current vs latest versions
+- Only updates if newer version available
+- Categorizes update types for smart suggestions
+
+**Safety Features:**
+- Always shows what will be updated before proceeding
+- Creates timestamped backup of existing agents
+- Verifies agent syntax after update
+- Rolls back on failure if requested
+- Never auto-installs security-sensitive updates without confirmation
+
+**Manual Update Alternative:**
+If update command fails, manual update:
+```bash
+cd /path/to/ClaudeCodeAgents
+git pull origin main
+cp *.md ~/.claude/agents/
+```
+
+**Integration with Workflow:**
+- Run `@smith update` before starting new features
+- Updates are automatically available in current session
+- No restart needed - agents pick up changes immediately
+- Version history tracked in each agent for rollback reference
+- Smart suggestions help prioritize updates by importance
 
 
